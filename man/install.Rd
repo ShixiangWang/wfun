@@ -10,9 +10,9 @@ install(pkg, gitee = FALSE, ...)
 \item{pkg}{A package name for Git(hub) package (e.g. \code{ShixiangWang/ezcox}) or
 a list of packages (e.g. \code{c("dplyr", "maftools")}) for normal packages.}
 
-\item{gitee}{if \code{TRUE}, install package from gitee.}
+\item{gitee}{If \code{TRUE}, install package from gitee.}
 
-\item{...}{other arguments passing to \link[remotes:install_git]{remotes::install_git},
+\item{...}{Other arguments passing to \link[remotes:install_git]{remotes::install_git},
 \link[BiocManager:install]{BiocManager::install} or \link[remotes:install_github]{remotes::install_github} based on input.}
 }
 \value{
