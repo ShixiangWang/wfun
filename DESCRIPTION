@@ -1,0 +1,18 @@
+Package: wfun
+Title: Miscellaneous Functions by 'Shixiang Wang'
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Shixiang",
+           family = "Wang",
+           role = c("aut", "cre"),
+           email = "w_shixiang@163.com",
+           comment = c(ORCID = "0000-0001-9855-7357"))
+Maintainer: Shixiang Wang <w_shixiang@163.com>
+Description: Miscellaneous useful functions commonly used by 'Shixiang Wang'.
+License: MIT + file LICENSE
+URL: https://github.com/ShixiangWang/wfun
+BugReports: https://github.com/ShixiangWang/wfun/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
