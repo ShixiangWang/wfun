@@ -2,7 +2,7 @@
 #'
 #' @param pkg A package name for Git(hub) package (e.g. `ShixiangWang/ezcox`) or
 #' a list of packages (e.g. `c("dplyr", "maftools")`) for normal packages.
-#' @param gitee If `TRUE`, install package from gitee.
+#' @param gitee If `TRUE`, install package from Gitee.
 #' @param ... Other arguments passing to [remotes::install_git],
 #' [BiocManager::install] or [remotes::install_github] based on input.
 #'
@@ -47,7 +47,7 @@ install <- function(pkg, gitee = FALSE, ...) {
 #' Clone a Git repository
 #'
 #' @inheritParams git2r::clone
-#' @param gitee If `TRUE`, clone repository from gitee.
+#' @param gitee If `TRUE`, clone repository from Gitee.
 #' @param reset_remote if `TRUE`, reset GitHub repository remote url.
 #' @param ... Other arguments passing to [git2r::clone]
 #'
@@ -55,9 +55,14 @@ install <- function(pkg, gitee = FALSE, ...) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'  clone("ShixiangWang/ezcox", file.path(tempdir(), "ezcox"), reset_remote = TRUE)
-#'  clone("ShixiangWang/tinyscholar", file.path(tempdir(), "ezcox"), gitee = TRUE)
+#' \donttest{
+#' x <- file.path(tempdir(), "ezcox")
+#' if (dir.exists(x)) rm_paths(x)
+#' clone("ShixiangWang/ezcox", x, reset_remote = TRUE)
+#'
+#' y <- file.path(tempdir(), "tinyscholar")
+#' if (dir.exists(y)) rm_paths(y)
+#' clone("ShixiangWang/tinyscholar", y, gitee = TRUE)
 #' }
 clone <- function(url, local_path, gitee = FALSE, reset_remote = FALSE, ...) {
   stopifnot(length(url) == 1L)
@@ -77,9 +82,9 @@ clone <- function(url, local_path, gitee = FALSE, reset_remote = FALSE, ...) {
     if (grepl("fastgit", url)) {
       url <- sub("hub.fastgit.org", "github.com", url, fixed = TRUE)
       message("Reset remote url to ", url)
-      git2r:::remote_set_url(local_path,
-                             name = git2r::remotes(local_path),
-                             url
+      git2r::remote_set_url(local_path,
+        name = git2r::remotes(local_path),
+        url
       )
     } else {
       message("No need to reset.")
@@ -87,8 +92,47 @@ clone <- function(url, local_path, gitee = FALSE, reset_remote = FALSE, ...) {
   }
 }
 
-download <- function() {
+#' Download GitHub/Gitee repo release or archive file
+#'
+#' @param repo A GitHub/Gitee repo in the format of `username/repo`, e.g. `ShixiangWang/tinyscholar`.
+#' @param destdir A target path to save the file.
+#' @param release Set to the version number (e.g. `v1.0`) for downloading release file.
+#' @param gitee If `TRUE`, download from Gitee repo instead of GitHub repo.
+#' @param ... Other arguments passing to [utils::download.file].
+#'
+#' @return Nothing
+#' @export
+#'
+#' @examples
+#' \donttest{
+#' x <- tempdir()
+#' download("ShixiangWang/tinyscholar", destdir = x)
+#' dir(x)
+#' }
+download <- function(repo, destdir, release = NULL, gitee = FALSE, ...) {
+  stopifnot(
+    length(repo) == 1L, length(destdir) == 1L,
+    is.character(repo), is.character(destdir)
+  )
 
+  if (!grepl("/", repo)) stop("Repo should in format of username/repo")
+
+  if (!dir.exists(destdir)) dir.create(destdir, recursive = TRUE)
+  if (is.null(release)) {
+    message("Downloading repo archive...")
+    url <- sprintf(
+      "https://%s/%s/archive/master.zip",
+      if (gitee) "gitee.com" else "download.fastgit.org",
+      repo
+    )
+  } else {
+    url <- sprintf(
+      "https://%s/%s/releases/download/%s/%s.tar.gz",
+      if (gitee) "gitee.com" else "download.fastgit.org",
+      repo, release
+    )
+  }
+  utils::download.file(url, destfile = file.path(destdir, basename(url)), ...)
 }
 
 verbose_git <- function() message("See ?remotes::install_git fore more options.")

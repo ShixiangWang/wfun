@@ -11,7 +11,7 @@ clone(url, local_path, gitee = FALSE, reset_remote = FALSE, ...)
 
 \item{local_path}{Local directory to clone to.}
 
-\item{gitee}{If \code{TRUE}, clone repository from gitee.}
+\item{gitee}{If \code{TRUE}, clone repository from Gitee.}
 
 \item{reset_remote}{if \code{TRUE}, reset GitHub repository remote url.}
 
@@ -24,8 +24,13 @@ Nothing
 Clone a Git repository
 }
 \examples{
-\dontrun{
- clone("ShixiangWang/ezcox", file.path(tempdir(), "ezcox"), reset_remote = TRUE)
- clone("ShixiangWang/tinyscholar", file.path(tempdir(), "ezcox"), gitee = TRUE)
+\donttest{
+x <- file.path(tempdir(), "ezcox")
+if (dir.exists(x)) rm_paths(x)
+clone("ShixiangWang/ezcox", x, reset_remote = TRUE)
+
+y <- file.path(tempdir(), "tinyscholar")
+if (dir.exists(y)) rm_paths(y)
+clone("ShixiangWang/tinyscholar", y, gitee = TRUE)
 }
 }
