@@ -47,9 +47,34 @@ install <- function(pkg, gitee = FALSE, ...) {
 verbose_git <- function() message("See ?remotes::install_git fore more options.")
 verbose_github <- function() message("See ?remotes::install_github fore more options.")
 verbose_bioc <- function() message("See ?BiocManager::install for more options.")
+verbose_clone <- function() message("See ?git2r::clone for more options.")
 
-clone <- function() {
+clone <- function(url, local_path, gitee = FALSE, reset_remote = FALSE, ...) {
+  stopifnot(length(url) == 1L)
 
+  local_path <- path.expand(local_path)
+  if (!grepl(":", url)) {
+    if (gitee) {
+      url <- paste0("https://gitee.com/", url)
+    } else {
+      message("Treat input as a GitHub repo.")
+      url <- paste0("https://hub.fastgit.org/", url)
+    }
+  }
+  # if (!dir.exists(local_path))
+  url2 <- sub("github.com", "hub.fastgit.org", url, fixed = TRUE)
+  git2r::clone(url2, local_path, bare = FALSE, ...)
+  if (reset_remote) {
+    if (grepl("github", url)) {
+      message("Reset remote url to ", url)
+      git2r:::remote_set_url(local_path,
+        name = git2r::remotes(local_path),
+        url
+      )
+    } else {
+      message("No need to reset.")
+    }
+  }
 }
 
 download <- function() {
