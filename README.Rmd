@@ -1,0 +1,75 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# wfun
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of wfun is to provide useful functions to accelerate coding.
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("ShixiangWang/wfun")
+# from Gitee
+# remotes::install_git("https://gitee.com/ShixiangWang/wfun")
+```
+
+Load it with:
+
+```{r}
+library(wfun)
+```
+
+## Example
+
+### Install GitHub/Gitee repo as R package
+
+```r
+install("ShixiangWang/ezcox")
+install("ShixiangWang/tinyscholar", gitee = TRUE)
+```
+
+The `install()` func can be also used to install normal CRAN/BioC packages.
+
+```r
+install(c("ggplot2", "Biobase"))
+```
+
+### Clone GitHub/Gitee repo
+
+```{r}
+x <- file.path(tempdir(), "ezcox")
+if (dir.exists(x)) rm_paths(x)
+clone("ShixiangWang/ezcox", x, reset_remote = TRUE)
+
+y <- file.path(tempdir(), "tinyscholar")
+if (dir.exists(y)) rm_paths(y)
+clone("ShixiangWang/tinyscholar", y, gitee = TRUE)
+```
+
+
+### Download GitHub/Gitee repo release or archive file
+
+```{r}
+x <- tempdir()
+download("ShixiangWang/tinyscholar", destdir = x)
+dir(x)
+```
+
