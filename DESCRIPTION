@@ -8,10 +8,14 @@ Authors@R:
            email = "w_shixiang@163.com",
            comment = c(ORCID = "0000-0001-9855-7357"))
 Maintainer: Shixiang Wang <w_shixiang@163.com>
-Description: Miscellaneous useful functions commonly used by 'Shixiang Wang'.
+Description: Miscellaneous useful functions commonly used by
+    'Shixiang Wang'.
 License: MIT + file LICENSE
 URL: https://github.com/ShixiangWang/wfun
 BugReports: https://github.com/ShixiangWang/wfun/issues
+Imports: 
+    BiocManager,
+    remotes
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
